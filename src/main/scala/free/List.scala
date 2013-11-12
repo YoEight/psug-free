@@ -22,6 +22,12 @@ object List {
       case Cons(a, as) => if (f(a)) cons(a, as()) else as()
     }
 
+  def find[A](xs: List[A])(f: A => Boolean): Option[A] =
+    xs.fold[Option[A]] {
+      case Empty      => None
+      case Cons(a, o) => if (f(a)) Some(a) else o()
+    }
+
   def foreach[A, U](xs: List[A])(f: A => U): Unit =
     xs.fold[Unit] {
       case Empty => ()
@@ -32,7 +38,7 @@ object List {
 
   def foldRight[A, B](xs: List[A], b: B)(f: (A, B) => B): B =
     xs.fold[B] {
-      case Empty      => b
+      case Empty       => b
       case Cons(a, b1) => f(a, b1())
     }
 

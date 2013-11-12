@@ -18,6 +18,10 @@ object ListExample {
     print(" -- Filter even number")
     println()
 
+    print(find(xs)(_ == 3))
+    print(" -- Find number 3")
+    println()
+
     print(foldRight(xs, 0)(_ + _))
     print(" -- Sum every element")
     println()
