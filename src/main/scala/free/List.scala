@@ -16,6 +16,12 @@ object List {
       case Cons(a, bs) => cons(f(a), bs())
     }
 
+  def append[A](xs: List[A], vs: List[A]): List[A] =
+    xs.fold[List[A]] {
+      case Empty       => vs
+      case Cons(a, as) => cons(a, as())
+    }
+
   def filter[A](xs: List[A])(f: A => Boolean): List[A] =
     xs.fold[List[A]] {
       case Empty       => nil
