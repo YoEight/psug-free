@@ -1,12 +1,23 @@
 package free
+package mu
 
-object List {
-  type List[A] = Mu[({ type λ[α] = Fix[A, α] })#λ]
+sealed trait ListInstr[+A, +B]
+case class Cons[A, B](a: A, b: () => B) extends ListInstr[A, B]
+case object Empty extends ListInstr[Nothing, Nothing]
+
+object ListInstr {
+  implicit def fixFunctor[E] =
+    new Functor[({ type λ[α] = ListInstr[E, α] })#λ] {
+      def map[A,B](fa: ListInstr[E, A])(f: A => B): ListInstr[E, B] = fa match {
+        case Cons(a, b) => Cons(a, () => f(b()))
+        case Empty      => Empty
+      }
+    }
 
   def cons[A](head: A, tail: => List[A]): List[A] =
-    Mu[({ type λ[α] = Fix[A, α] })#λ](Cons(head, () => tail))
+    Mu[({ type λ[α] = ListInstr[A, α] })#λ](Cons(head, () => tail))
 
-  def nil[A]: List[A] = Mu[({ type λ[α] = Fix[A, α] })#λ](Empty)
+  def nil[A]: List[A] = Mu[({ type λ[α] = ListInstr[A, α] })#λ](Empty)
 
   def singleton[A](a: A): List[A] = cons(a, nil)
 

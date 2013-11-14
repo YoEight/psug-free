@@ -9,7 +9,7 @@ object Console {
   @annotation.tailrec
   def execute(instr: Console): Unit = instr match {
     case Stop             => ()
-    case GetLine(k)      => execute(k(readLine()))
+    case GetLine(k)       => execute(k(readLine()))
     case PutLine(s, next) =>
       println(s)
       execute(next)

@@ -1,8 +1,8 @@
 package free
 
-import List._
+import mu.ListInstr._
 
-object ListExample {
+object ListMuExample {
   def main(args: Array[String]) {
     val xs = cons(1, cons(2, cons(3, cons(4, cons(5, nil)))))
     val vs = cons(6, cons(7, cons(8, cons(9, cons(10, nil)))))
