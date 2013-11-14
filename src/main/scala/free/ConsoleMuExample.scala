@@ -1,13 +1,13 @@
 package free
 
-import simple.Console._
+import mu.ConsoleInstr._
 
-object ConsoleSimple {
+object ConsoleMuExample {
   def main(args: Array[String]) {
     val instrs =
-      GetLine {
+      getLine {
         line =>
-          PutLine("we got: " ++ line, Stop)
+          putLine("we got: " ++ line, stop)
       }
 
     execute(instrs)
