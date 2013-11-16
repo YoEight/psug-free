@@ -1,4 +1,4 @@
 psug-free
 =========
 
-Free Your Scala
+Paris Scala User Group - Free Your Scala
