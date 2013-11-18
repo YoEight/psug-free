@@ -7,7 +7,7 @@ object ConsoleMuExample {
     val instrs =
       getLine {
         line =>
-          putLine("we got: " ++ line, stop)
+          putLine("we got: " + line, stop)
       }
 
     execute(instrs)
