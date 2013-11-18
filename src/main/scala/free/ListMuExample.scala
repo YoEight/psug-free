@@ -27,6 +27,14 @@ object ListMuExample {
     print(" -- Sum every element")
     println()
 
+    foldRight(xs, ()){ case (a, _) => print("(" + a + ")")}
+    print(" -- Right traversal")
+    println()
+
+    foldLeft(xs, ()){ case (_, a) => print("(" + a + ")")}
+    print(" -- Left traversal")
+    println()
+
     print(show(append(xs, vs)))
     print(" -- Append")
     println()

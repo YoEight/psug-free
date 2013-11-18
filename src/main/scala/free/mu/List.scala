@@ -59,6 +59,15 @@ object ListInstr {
       case Cons(a, b1) => f(a, b1())
     }
 
+  def foldLeft[A, B](xs: List[A], b: B)(f: (B, A) => B): B = {
+    val res = xs.fold[B => B] {
+      case Empty      => (b: B) => b
+      case Cons(a, k) => (b: B) => k()(f(b, a))
+    }
+
+    res(b)
+  }
+
   def show[A](xs: List[A]): String =
     xs.fold[String] {
       case Empty      => "Nil"
