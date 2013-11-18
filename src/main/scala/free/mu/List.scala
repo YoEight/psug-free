@@ -27,6 +27,12 @@ object ListInstr {
       case Cons(a, bs) => cons(f(a), bs())
     }
 
+  def flatMap[A, B](xs: List[A])(f: A => List[B]): List[B] =
+    xs.fold[List[B]] {
+      case Empty       => nil
+      case Cons(a, bs) => append(f(a), bs())
+    }
+
   def append[A](xs: List[A], vs: List[A]): List[A] =
     xs.fold[List[A]] {
       case Empty       => vs
