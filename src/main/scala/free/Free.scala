@@ -13,14 +13,6 @@ sealed trait Free[+F[_], A] {
 
   def flatMap[FF[x] >: F[x], B](f: A => Free[FF, B])(implicit F: Functor[FF]): Free[FF, B] =
     fold[FF, Free[FF, B]](f)(Free.suspend)
-
-  def foldRun[FF[x] >: F[x], B](start: B)(f: FF[(B,A)] => (B,A))(implicit F: Functor[FF]): (B, A) = {
-    val res = fold[FF, B => (B,A)](a => (b: B) => (b, a)) {
-      in => (b: B) => f(F.map(in)(k => k(b)))
-    }
-
-    res(start)
-  }
 }
 
 object Free {
