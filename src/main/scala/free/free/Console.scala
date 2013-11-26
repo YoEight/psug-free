@@ -8,14 +8,18 @@ object FreeConsole {
     Free.suspend[ConsoleInstr, String](mu.GetLine(Free.emit))
 
   def putLine(s: String): Free[ConsoleInstr, Unit] =
-    Free.suspend[ConsoleInstr, Unit](mu.PutLine(s, () => Free.emit()))
+    Free.suspend[ConsoleInstr, Unit](mu.PutLine(s, Free.emit()))
 
-  def interpret[A](instr: Free[ConsoleInstr, A]): A =
-    instr.fold[ConsoleInstr, A](identity) {
+  def interpret[A](instr: Free[ConsoleInstr, A]): A = {
+    val go = instr.fold[ConsoleInstr, () => A](a => () => a) {
       case mu.Stop          => ???
-      case mu.GetLine(k)    => k(readLine())
-      case mu.PutLine(s, n) =>
+      case mu.GetLine(k)    => () => k(readLine())()
+      case mu.PutLine(s, n) => () => {
         println(s)
         n()
+      }
     }
+
+    go()
+  }
 }
